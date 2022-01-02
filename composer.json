@@ -1,0 +1,15 @@
+{
+    "name": "xapak/auction_scraper",
+    "autoload": {
+        "psr-4": {
+            "Scraper\\": "src/",
+            "Scraper\\Test\\": "test/",
+            "Scraper\\Framework\\": "framework/"
+        }
+    },
+    "type": "project",
+    "require": {
+        "phpunit/phpunit": "^9.5",
+        "myclabs/php-enum": "^1.8"
+    }
+}
