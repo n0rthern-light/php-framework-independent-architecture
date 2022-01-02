@@ -1,8 +1,8 @@
 <?php
 
-namespace Scraper\Auction\Domain\Entity;
+namespace Core\Auction\Domain\Entity;
 
-use Scraper\Auction\Domain\AggregateRoot\AuctionEntity;
+use Core\Auction\Domain\AggregateRoot\AuctionEntity;
 
 class AuctionAuthor extends AuctionEntity
 {

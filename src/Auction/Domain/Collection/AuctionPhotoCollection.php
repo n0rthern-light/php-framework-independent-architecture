@@ -1,9 +1,9 @@
 <?php
 
-namespace Scraper\Auction\Domain\Collection;
+namespace Core\Auction\Domain\Collection;
 
-use Scraper\Auction\Domain\Entity\AuctionPhoto;
-use Scraper\Shared\Domain\Collection\Collection;
+use Core\Auction\Domain\Entity\AuctionPhoto;
+use Core\Shared\Domain\Collection\Collection;
 
 class AuctionPhotoCollection extends Collection
 {

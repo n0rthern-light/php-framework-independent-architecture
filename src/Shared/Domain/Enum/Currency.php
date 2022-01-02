@@ -1,6 +1,6 @@
 <?php
 
-namespace Scraper\Shared\Domain\Enum;
+namespace Core\Shared\Domain\Enum;
 
 use MyCLabs\Enum\Enum;
 

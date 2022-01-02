@@ -1,10 +1,10 @@
 <?php
 
-namespace Scraper\Portal\Domain\Entity;
+namespace Core\Portal\Domain\Entity;
 
-use Scraper\Portal\Domain\AggregateRoot\PortalEntity;
-use Scraper\Portal\Domain\ValueObject\PortalPlaceName;
-use Scraper\Portal\Domain\ValueObject\PortalPlaceUrl;
+use Core\Portal\Domain\AggregateRoot\PortalEntity;
+use Core\Portal\Domain\ValueObject\PortalPlaceName;
+use Core\Portal\Domain\ValueObject\PortalPlaceUrl;
 
 class PortalPlace extends PortalEntity
 {

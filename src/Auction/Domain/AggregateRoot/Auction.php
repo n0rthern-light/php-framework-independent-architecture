@@ -1,16 +1,16 @@
 <?php
 
-namespace Scraper\Auction\Domain\AggregateRoot;
+namespace Core\Auction\Domain\AggregateRoot;
 
-use Scraper\Auction\Domain\Collection\AuctionPhotoCollection;
-use Scraper\Auction\Domain\Entity\AuctionAuthor;
-use Scraper\Auction\Domain\Entity\AuctionAuthorContact;
-use Scraper\Auction\Domain\Entity\AuctionLocation;
-use Scraper\Auction\Domain\Entity\AuctionPrice;
-use Scraper\Auction\Domain\ValueObject\AuctionHash;
-use Scraper\Auction\Domain\ValueObject\AuctionName;
-use Scraper\Auction\Domain\ValueObject\AuctionUrl;
-use Scraper\Shared\Domain\Entity\Entity;
+use Core\Auction\Domain\Collection\AuctionPhotoCollection;
+use Core\Auction\Domain\Entity\AuctionAuthor;
+use Core\Auction\Domain\Entity\AuctionAuthorContact;
+use Core\Auction\Domain\Entity\AuctionLocation;
+use Core\Auction\Domain\Entity\AuctionPrice;
+use Core\Auction\Domain\ValueObject\AuctionHash;
+use Core\Auction\Domain\ValueObject\AuctionName;
+use Core\Auction\Domain\ValueObject\AuctionUrl;
+use Core\Shared\Domain\Entity\Entity;
 
 class Auction extends Entity
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Scraper\Shared\Domain\Collection;
+namespace Core\Shared\Domain\Collection;
 
 abstract class Collection
 {

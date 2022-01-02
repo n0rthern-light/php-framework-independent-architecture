@@ -1,9 +1,9 @@
 <?php
 
-namespace Scraper\Portal\Domain\AggregateRoot;
+namespace Core\Portal\Domain\AggregateRoot;
 
-use Scraper\Portal\Domain\ValueObject\PortalName;
-use Scraper\Shared\Domain\Entity\Entity;
+use Core\Portal\Domain\ValueObject\PortalName;
+use Core\Shared\Domain\Entity\Entity;
 
 class Portal extends Entity
 {

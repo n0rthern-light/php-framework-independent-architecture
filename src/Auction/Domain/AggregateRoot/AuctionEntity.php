@@ -1,8 +1,8 @@
 <?php
 
-namespace Scraper\Auction\Domain\AggregateRoot;
+namespace Core\Auction\Domain\AggregateRoot;
 
-use Scraper\Shared\Domain\Entity\Entity;
+use Core\Shared\Domain\Entity\Entity;
 
 class AuctionEntity extends Entity
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Scraper\Auction\Domain\Entity;
+namespace Core\Auction\Domain\Entity;
 
-use Scraper\Auction\Domain\AggregateRoot\AuctionEntity;
-use Scraper\Shared\Domain\ValueObject\Contact;
+use Core\Auction\Domain\AggregateRoot\AuctionEntity;
+use Core\Shared\Domain\ValueObject\Contact;
 
 class AuctionAuthorContact extends AuctionEntity
 {

@@ -2,9 +2,8 @@
     "name": "xapak/auction_scraper",
     "autoload": {
         "psr-4": {
-            "Scraper\\": "src/",
-            "Scraper\\Test\\": "test/",
-            "Scraper\\Framework\\": "framework/"
+            "Core\\": "src/",
+            "Core\\Test\\": "test/"
         }
     },
     "type": "project",

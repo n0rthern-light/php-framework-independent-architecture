@@ -1,6 +1,6 @@
 <?php
 
-namespace Scraper\Shared\Domain\Entity;
+namespace Core\Shared\Domain\Entity;
 
 abstract class Entity
 {

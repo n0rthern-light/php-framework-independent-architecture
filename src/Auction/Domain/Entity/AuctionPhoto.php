@@ -1,9 +1,9 @@
 <?php
 
-namespace Scraper\Auction\Domain\Entity;
+namespace Core\Auction\Domain\Entity;
 
-use Scraper\Auction\Domain\AggregateRoot\AuctionEntity;
-use Scraper\Shared\Domain\ValueObject\PhotoUrl;
+use Core\Auction\Domain\AggregateRoot\AuctionEntity;
+use Core\Shared\Domain\ValueObject\PhotoUrl;
 
 class AuctionPhoto extends AuctionEntity
 {

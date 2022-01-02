@@ -1,8 +1,8 @@
 <?php
 
-namespace Scraper\Auction\Domain\ValueObject;
+namespace Core\Auction\Domain\ValueObject;
 
-use Scraper\Shared\Domain\ValueObject\StringValue;
+use Core\Shared\Domain\ValueObject\StringValue;
 
 class AuctionUrl extends StringValue
 {

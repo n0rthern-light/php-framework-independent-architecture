@@ -1,8 +1,8 @@
 <?php
 
-namespace Scraper\Portal\Domain\ValueObject;
+namespace Core\Portal\Domain\ValueObject;
 
-use Scraper\Shared\Domain\ValueObject\StringValue;
+use Core\Shared\Domain\ValueObject\StringValue;
 
 class PortalPlaceUrl extends StringValue
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Scraper\Shared\Domain\ValueObject;
+namespace Core\Shared\Domain\ValueObject;
 
-use Scraper\Shared\Domain\Enum\Currency;
+use Core\Shared\Domain\Enum\Currency;
 
 class Money
 {
