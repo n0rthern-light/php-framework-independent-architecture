@@ -1,5 +1,5 @@
 ### Completely framework independent architecture
-An modulit application with help of Hexagonal Architecture & DDD & Symfony framework.
+An modulit application with help of Hexagonal Architecture & DDD & Symfony framework. The purpose of this architecture is a very high scalability while remaining framework and dependency decoupled.
 
 ##### Concepts:
 - `core` directory contains only business logic, domain services, application services, repository declarations (interfaces) - each dependency is defined as interface at this stage.
