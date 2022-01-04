@@ -11,8 +11,16 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
+    pdo:
+        class: '\PDO'
+        arguments:
+            $dsn: '%env(DATABASE_DSN)%'
+            $username: '%env(DATABASE_USER)%'
+            $password: '%env(DATABASE_PASSWORD)%'
+
+    Core\:
+        resource: '../../core/src/'
+
     Framework\:
         resource: '../src/'
         exclude:
@@ -21,5 +29,11 @@ services:
             - '../src/Kernel.php'
             - '../src/Tests/'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    Framework\Auction\UserInterface\Controller\:
+        resource: '../src/Auction/UserInterface/Controller/'
+        tags: ['controller.service_arguments']
+
+    Framework\Auction\Infrastructure\Repository\:
+        resource: '../src/Auction/Infrastructure/Repository/'
+        arguments:
+            $pdo: '@pdo'
