@@ -4,7 +4,7 @@ namespace Core\Auction\Domain\AggregateRoot;
 
 use Core\Shared\Domain\Entity\Entity;
 
-class AuctionEntity extends Entity
+abstract class AuctionEntity extends Entity
 {
     protected int $auctionId;
 

@@ -4,7 +4,7 @@ namespace Core\Portal\Domain\AggregateRoot;
 
 use Core\Shared\Domain\Entity\Entity;
 
-class PortalEntity extends Entity
+abstract class PortalEntity extends Entity
 {
     protected int $portalId;
 

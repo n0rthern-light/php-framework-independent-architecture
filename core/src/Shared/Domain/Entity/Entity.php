@@ -4,13 +4,9 @@ namespace Core\Shared\Domain\Entity;
 
 abstract class Entity
 {
-    protected int $id;
+    protected ?int $id = null;
 
-    public function __construct()
-    {
-    }
-
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
