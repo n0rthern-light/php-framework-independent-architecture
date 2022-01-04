@@ -48,11 +48,45 @@ class DbalAuctionRepository implements AuctionRepositoryInterface
 
     private function insert(Auction $auction): void
     {
-        dd('inserting');
+        $sql = '
+            INSERT INTO auction (hash, name, url)
+            VALUES (
+                :hash,
+                :name,
+                :url
+            );
+        ';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->executeStatement([
+            'hash' => $auction->getHash()->getValue(),
+            'name' => $auction->getName()->getValue(),
+            'url' => $auction->getUrl()->getValue(),
+        ]);
+
+        /** @var int $lastInsertId */
+        $lastInsertId = $this->connection->lastInsertId();
+        $auction->setId($lastInsertId);
     }
 
     private function update(Auction $auction): void
     {
-        dd('updating');
+        $sql = '
+            UPDATE auction
+            SET
+                hash = :hash,
+                name = :name,
+                url = :url
+            WHERE
+                id = :id
+        ';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->executeStatement([
+            'id' => $auction->getId(),
+            'hash' => $auction->getHash()->getValue(),
+            'name' => $auction->getName()->getValue(),
+            'url' => $auction->getUrl()->getValue(),
+        ]);
     }
 }

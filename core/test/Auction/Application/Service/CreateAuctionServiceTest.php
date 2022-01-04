@@ -6,7 +6,7 @@ use Core\Auction\Application\Dto\CreateAuctionDto;
 use Core\Auction\Application\Factory\AuctionFactory;
 use Core\Auction\Application\Service\CreateAuctionService;
 use Core\Auction\Domain\AggregateRoot\Auction;
-use Core\Auction\Domain\Repository\AuctionRepositoryInterface;
+use Core\Auction\Domain\Repository\AuctionAggregateRepositoryInterface;
 use Core\Auction\Domain\ValueObject\AuctionName;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -23,9 +23,9 @@ class CreateAuctionServiceTest extends TestCase
         $service->execute($this->buildCreateAuctionDto());
     }
 
-    private function getAuctionRepositoryMock(): MockObject|AuctionRepositoryInterface
+    private function getAuctionRepositoryMock(): MockObject|AuctionAggregateRepositoryInterface
     {
-        $mock = $this->createMock(AuctionRepositoryInterface::class);
+        $mock = $this->createMock(AuctionAggregateRepositoryInterface::class);
 
         $mock->expects(self::once())
             ->method('save');

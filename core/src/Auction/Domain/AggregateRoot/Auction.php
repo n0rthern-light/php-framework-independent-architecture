@@ -2,7 +2,7 @@
 
 namespace Core\Auction\Domain\AggregateRoot;
 
-use Core\Auction\Domain\Collection\AuctionPhotoCollection;
+use Core\Auction\Domain\Collection\AuctionPriceCollection;
 use Core\Auction\Domain\Entity\AuctionAuthor;
 use Core\Auction\Domain\Entity\AuctionAuthorContact;
 use Core\Auction\Domain\Entity\AuctionLocation;
@@ -18,7 +18,7 @@ class Auction extends Entity
     private AuctionUrl $url;
     private AuctionHash $hash;
     private AuctionPrice $price;
-    private AuctionPhotoCollection $photoCollection;
+    private AuctionPriceCollection $photoCollection;
     private AuctionAuthor $author;
     private AuctionAuthorContact $authorContact;
     private AuctionLocation $location;
@@ -63,12 +63,12 @@ class Auction extends Entity
         $this->price = $price;
     }
 
-    public function getPhotoCollection(): AuctionPhotoCollection
+    public function getPhotoCollection(): AuctionPriceCollection
     {
         return $this->photoCollection;
     }
 
-    public function setPhotoCollection(AuctionPhotoCollection $photoCollection): void
+    public function setPhotoCollection(AuctionPriceCollection $photoCollection): void
     {
         $this->photoCollection = $photoCollection;
     }
