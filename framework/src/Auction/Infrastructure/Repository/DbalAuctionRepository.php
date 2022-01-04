@@ -8,16 +8,16 @@ use Core\Auction\Domain\Repository\AuctionRepositoryInterface;
 use Core\Auction\Domain\ValueObject\AuctionHash;
 use Core\Shared\Domain\Criteria\PaginationCriteria;
 use Framework\Auction\Infrastructure\Factory\AuctionFactory;
-use PDO;
+use Doctrine\DBAL\Connection;
 
-class PdoAuctionRepository implements AuctionRepositoryInterface
+class DbalAuctionRepository implements AuctionRepositoryInterface
 {
-    private PDO $pdo;
+    private Connection $connection;
     private AuctionFactory $auctionFactory;
 
-    public function __construct(PDO $pdo, AuctionFactory $auctionFactory)
+    public function __construct(Connection $connection, AuctionFactory $auctionFactory)
     {
-        $this->pdo = $pdo;
+        $this->connection = $connection;
         $this->auctionFactory = $auctionFactory;
     }
 
