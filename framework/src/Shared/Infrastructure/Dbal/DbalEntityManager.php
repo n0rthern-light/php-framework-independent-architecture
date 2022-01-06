@@ -53,7 +53,7 @@ class DbalEntityManager
         for($i = 0; $i < $keysCount; $i++) {
             $key = $keys[$i];
 
-            $sql .= ' ' . $key . ' = ?';
+            $sql .= ' `' . $key . '` = ?';
 
             if ($i < $keysCount - 1) {
                 $sql .= ', ';
@@ -83,7 +83,7 @@ class DbalEntityManager
             VALUES (' . \implode(', ', $placeholders) . ')
         ';
 
-        $this->connection->executeStatement($sql, [...array_values($columnValues)]);
+        $this->connection->executeStatement($sql, array_values($columnValues));
 
         /** @var int $lastInsertId */
         $lastInsertId = $this->connection->lastInsertId();

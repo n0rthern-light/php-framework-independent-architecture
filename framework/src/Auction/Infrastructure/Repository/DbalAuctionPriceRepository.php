@@ -7,6 +7,7 @@ use Core\Auction\Domain\Factory\AuctionPriceFactory;
 use Core\Auction\Domain\Repository\AuctionPriceRepositoryInterface;
 use Doctrine\DBAL\Connection;
 use Framework\Shared\Infrastructure\Dbal\DbalEntityManager;
+use Framework\Shared\Infrastructure\Dbal\DbalQueryManager;
 
 class DbalAuctionPriceRepository implements AuctionPriceRepositoryInterface
 {
@@ -16,6 +17,7 @@ class DbalAuctionPriceRepository implements AuctionPriceRepositoryInterface
     private AuctionPriceFactory $auctionPriceFactory;
 
     private DbalEntityManager $dbalEntityManager;
+    private DbalQueryManager $dbalQueryManager;
 
     public function __construct(Connection $connection, AuctionPriceFactory $auctionPriceFactory)
     {
@@ -23,6 +25,7 @@ class DbalAuctionPriceRepository implements AuctionPriceRepositoryInterface
         $this->auctionPriceFactory = $auctionPriceFactory;
 
         $this->dbalEntityManager = new DbalEntityManager($connection, self::TABLE_NAME);
+        $this->dbalQueryManager = new DbalQueryManager($connection, self::TABLE_NAME);
     }
 
     public function save(AuctionPrice $auctionPrice): void
@@ -37,14 +40,8 @@ class DbalAuctionPriceRepository implements AuctionPriceRepositoryInterface
 
     public function findOneByAuctionId(int $auctionId): ?AuctionPrice
     {
-        $sql = 'SELECT * FROM auction_price WHERE auction_id = :auctionId';
+        $row = $this->dbalQueryManager->selectOneByCriteria(['auction_id' => $auctionId]);
 
-        $row = $this->connection->fetchAssociative($sql, ['auctionId' => $auctionId]);
-
-        if (!$row) {
-            return null;
-        }
-
-        return $this->auctionPriceFactory->fromAssoc($row);
+        return $row ? $this->auctionPriceFactory->fromAssoc($row) : null;
     }
 }

@@ -8,6 +8,7 @@ use Core\Auction\Domain\Factory\AuctionPhotoFactory;
 use Core\Auction\Domain\Repository\AuctionPhotoRepositoryInterface;
 use Doctrine\DBAL\Connection;
 use Framework\Shared\Infrastructure\Dbal\DbalEntityManager;
+use Framework\Shared\Infrastructure\Dbal\DbalQueryManager;
 
 class DbalAuctionPhotoRepository implements AuctionPhotoRepositoryInterface
 {
@@ -17,6 +18,7 @@ class DbalAuctionPhotoRepository implements AuctionPhotoRepositoryInterface
     private AuctionPhotoFactory $auctionPhotoFactory;
 
     private DbalEntityManager $dbalEntityManager;
+    private DbalQueryManager $dbalQueryManager;
 
     public function __construct(Connection $connection, AuctionPhotoFactory $auctionPhotoFactory)
     {
@@ -24,6 +26,7 @@ class DbalAuctionPhotoRepository implements AuctionPhotoRepositoryInterface
         $this->auctionPhotoFactory = $auctionPhotoFactory;
 
         $this->dbalEntityManager = new DbalEntityManager($connection, self::TABLE_NAME);
+        $this->dbalQueryManager = new DbalQueryManager($connection, self::TABLE_NAME);
     }
 
     public function save(AuctionPhoto $auctionPhoto): void
@@ -37,9 +40,7 @@ class DbalAuctionPhotoRepository implements AuctionPhotoRepositoryInterface
 
     public function findAllByAuctionId(int $auctionId): AuctionPhotoCollection
     {
-        $sql = 'SELECT * FROM auction_photo WHERE auction_id = :auctionId';
-
-        $rows = $this->connection->fetchAllAssociative($sql, ['auctionId' => $auctionId]);
+        $rows = $this->dbalQueryManager->selectAllByCriteria(['auction_id' => $auctionId]);
 
         return $this->auctionPhotoFactory->fromAssocCollection($rows);
     }
