@@ -9,8 +9,5 @@ use Core\Shared\Domain\Criteria\PaginationCriteria;
 interface AuctionLocationRepositoryInterface
 {
     public function save(AuctionLocation $auctionLocation): void;
-
-    public function findById(int $id): ?AuctionLocation;
-
-    public function fetchAll(?PaginationCriteria $paginationCriteria = null): AuctionLocationCollection;
+    public function findOneByAuctionId(int $auctionId): ?AuctionLocation;
 }

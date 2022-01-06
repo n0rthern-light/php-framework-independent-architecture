@@ -12,7 +12,7 @@ interface AuctionAggregateRepositoryInterface
     public function save(Auction $auction): void;
 
     public function findById(int $id): ?Auction;
-    public function findByHash(AuctionHash $auctionHash): ?Auction;
 
     public function fetchAll(?PaginationCriteria $paginationCriteria = null): AuctionCollection;
+    public function fetchTotalCount(): int;
 }

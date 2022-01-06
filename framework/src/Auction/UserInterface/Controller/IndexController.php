@@ -4,26 +4,43 @@ namespace Framework\Auction\UserInterface\Controller;
 
 use Core\Auction\Application\Dto\CreateAuctionDto;
 use Core\Auction\Application\Service\CreateAuctionService;
+use Core\Auction\Application\Service\GetAuctionService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/symfony')]
-class IndexController
+#[Route('/auction')]
+class IndexController extends AbstractController
 {
     private CreateAuctionService $createAuctionService;
+    private GetAuctionService $getAuctionService;
 
-    public function __construct(CreateAuctionService $createAuctionService)
+    public function __construct(CreateAuctionService $createAuctionService, GetAuctionService $getAuctionService)
     {
         $this->createAuctionService = $createAuctionService;
+        $this->getAuctionService = $getAuctionService;
     }
 
     #[Route('/', name: 'index')]
     public function index(): Response
     {
+        $collection = $this->getAuctionService->getList();
+        $total = $this->getAuctionService->getTotalCount();
+
+        dd($collection, $total);
+
+        return $this->render('auction/index.html.twig', [
+            'collection' => $collection,
+            'total' => $total,
+        ]);
+    }
+
+    #[Route('/new', name: 'new')]
+    public function new(): Response
+    {
         return new Response('
-            <form method="POST" action="/symfony/create">
+            <form method="POST" action="/auction/create">
                 <div>
                     <p>Name:</p>
                     <input type="text" name="name" />
@@ -49,6 +66,14 @@ class IndexController
                     <input type="text" name="email" />
                 </div>
                 <div>
+                    <p>Image 1:</p>
+                    <input type="text" name="image[0]" />
+                </div>
+                <div>
+                    <p>Image 2:</p>
+                    <input type="text" name="image[1]" />
+                </div>
+                <div>
                     <p>Location:</p>
                     <input type="text" name="location" />
                 </div>
@@ -66,7 +91,11 @@ class IndexController
             'Test someshit',
             'www.example.com',
             '43214 PLN',
-            [],
+            [
+                'www.image1.com',
+                'www.image2.com',
+                'www.image3.com',
+            ],
             'Kojack',
             '512500125',
             'kojack@gmail.com',

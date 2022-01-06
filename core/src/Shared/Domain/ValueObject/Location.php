@@ -6,9 +6,9 @@ class Location
 {
     private string $city;
     private string $country;
-    private string $zip;
+    private ?string $zip;
 
-    public function __construct(string $city, string $country, string $zip)
+    public function __construct(string $city, string $country, ?string $zip = null)
     {
         $this->city = $city;
         $this->country = $country;
@@ -25,7 +25,7 @@ class Location
         return $this->country;
     }
 
-    public function getZip(): string
+    public function getZip(): ?string
     {
         return $this->zip;
     }

@@ -6,9 +6,10 @@ use Core\Auction\Domain\AggregateRoot\AuctionEntity;
 
 class AuctionAuthor extends AuctionEntity
 {
-    private ?string $firstName;
-    private ?string $lastName;
-    private ?string $companyName;
+    private ?string $firstName = null;
+    private ?string $lastName = null;
+    private ?string $companyName = null;
+    private AuctionAuthorContact $contact;
 
     public function getFirstName(): ?string
     {
@@ -38,5 +39,15 @@ class AuctionAuthor extends AuctionEntity
     public function setCompanyName(?string $companyName): void
     {
         $this->companyName = $companyName;
+    }
+
+    public function getContact(): AuctionAuthorContact
+    {
+        return $this->contact;
+    }
+
+    public function setContact(AuctionAuthorContact $contact): void
+    {
+        $this->contact = $contact;
     }
 }

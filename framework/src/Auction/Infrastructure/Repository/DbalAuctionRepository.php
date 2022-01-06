@@ -5,7 +5,6 @@ namespace Framework\Auction\Infrastructure\Repository;
 use Core\Auction\Domain\AggregateRoot\Auction;
 use Core\Auction\Domain\Collection\AuctionCollection;
 use Core\Auction\Domain\Repository\AuctionRepositoryInterface;
-use Core\Auction\Domain\ValueObject\AuctionHash;
 use Core\Shared\Domain\Criteria\PaginationCriteria;
 use Framework\Auction\Infrastructure\Factory\AuctionFactory;
 use Doctrine\DBAL\Connection;
@@ -31,19 +30,19 @@ class DbalAuctionRepository implements AuctionRepositoryInterface
         $this->update($auction);
     }
 
-    public function findById(int $id): ?Auction
-    {
-        // TODO: Implement findById() method.
-    }
-
-    public function findByHash(AuctionHash $auctionHash): ?Auction
-    {
-        // TODO: Implement findByHash() method.
-    }
-
     public function fetchAll(?PaginationCriteria $paginationCriteria = null): AuctionCollection
     {
-        // TODO: Implement all() method.
+        $collection = new AuctionCollection();
+
+        $sql = 'SELECT * FROM auction';
+
+        foreach($this->connection->fetchAllAssociative($sql) as $row) {
+            $collection->add(
+                $this->auctionFactory->fromAssoc($row)
+            );
+        }
+
+        return $collection;
     }
 
     private function insert(Auction $auction): void
@@ -88,5 +87,25 @@ class DbalAuctionRepository implements AuctionRepositoryInterface
             'name' => $auction->getName()->getValue(),
             'url' => $auction->getUrl()->getValue(),
         ]);
+    }
+
+    public function fetchTotalCount(): int
+    {
+        $sql = 'SELECT count(*) FROM auction';
+
+        return $this->connection->fetchOne($sql);
+    }
+
+    public function findById(int $id): ?Auction
+    {
+        $sql = 'SELECT * FROM auction WHERE id = :id';
+
+        $row = $this->connection->fetchAssociative($sql, ['id' => $id]);
+
+        if (!$row) {
+            return null;
+        }
+
+        return $this->auctionFactory->fromAssoc($row);
     }
 }

@@ -4,7 +4,7 @@ namespace Core\Shared\Domain\Collection;
 
 abstract class Collection
 {
-    protected array $items;
+    protected array $items = [];
 
     abstract protected function getCollectionItemType(): string;
 

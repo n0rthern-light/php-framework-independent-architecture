@@ -88,6 +88,9 @@
     "laminas/laminas-code": {
         "version": "4.5.1"
     },
+    "myclabs/php-enum": {
+        "version": "1.8.3"
+    },
     "nikic/php-parser": {
         "version": "v4.13.2"
     },
@@ -237,6 +240,25 @@
     "symfony/string": {
         "version": "v6.0.2"
     },
+    "symfony/translation-contracts": {
+        "version": "v3.0.0"
+    },
+    "symfony/twig-bridge": {
+        "version": "v6.0.2"
+    },
+    "symfony/twig-bundle": {
+        "version": "6.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.4",
+            "ref": "bffbb8f1a849736e64006735afae730cb428b6ff"
+        },
+        "files": [
+            "config/packages/twig.yaml",
+            "templates/base.html.twig"
+        ]
+    },
     "symfony/var-dumper": {
         "version": "v6.0.2"
     },
@@ -245,5 +267,8 @@
     },
     "symfony/yaml": {
         "version": "v6.0.2"
+    },
+    "twig/twig": {
+        "version": "v2.14.10"
     }
 }

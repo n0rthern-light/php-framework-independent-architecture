@@ -27,6 +27,7 @@ final class Version20220104225503 extends AbstractMigration
                 currency INT(4) UNSIGNED NOT NULL,
                 PRIMARY KEY (id),
                 FOREIGN KEY (auction_id) REFERENCES auction(id)
+                    ON DELETE cascade
             );
         ');
     }

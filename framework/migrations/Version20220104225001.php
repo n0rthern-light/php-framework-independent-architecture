@@ -26,6 +26,7 @@ final class Version20220104225001 extends AbstractMigration
                 url VARCHAR(2048) NOT NULL,
                 PRIMARY KEY (id),
                 FOREIGN KEY (auction_id) REFERENCES auction(id)
+                    ON DELETE cascade
             );
         ');
     }

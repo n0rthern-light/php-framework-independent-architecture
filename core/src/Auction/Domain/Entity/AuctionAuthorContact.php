@@ -2,10 +2,10 @@
 
 namespace Core\Auction\Domain\Entity;
 
-use Core\Auction\Domain\AggregateRoot\AuctionEntity;
+use Core\Shared\Domain\Entity\Entity;
 use Core\Shared\Domain\ValueObject\Contact;
 
-class AuctionAuthorContact extends AuctionEntity
+class AuctionAuthorContact extends Entity
 {
     private int $auctionAuthorId;
     private Contact $contact;

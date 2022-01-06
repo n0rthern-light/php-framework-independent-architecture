@@ -27,6 +27,7 @@ final class Version20220104223417 extends AbstractMigration
                 phone VARCHAR(256),
                 PRIMARY KEY (id),
                 FOREIGN KEY (auction_author_id) REFERENCES auction_author(id)
+                    ON DELETE cascade
             );
         ');
     }
