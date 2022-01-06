@@ -42,7 +42,7 @@ class DbalAuctionPriceRepository implements AuctionPriceRepositoryInterface
         $stmt = $this->connection->prepare($sql);
         $stmt->executeStatement([
             'auctionId' => $auctionPrice->getAuctionId(),
-            'price' => $auctionPrice->getPrice()->getAmount(),
+            'price' => (int)$auctionPrice->getPrice()->getAmount() * 100.00,
             'currency' => $auctionPrice->getPrice()->getCurrency()->getValue(),
         ]);
 
@@ -67,7 +67,7 @@ class DbalAuctionPriceRepository implements AuctionPriceRepositoryInterface
         $stmt->executeStatement([
             'id' => $auctionPrice->getId(),
             'auctionId' => $auctionPrice->getAuctionId(),
-            'price' => $auctionPrice->getPrice()->getAmount(),
+            'price' => (int) $auctionPrice->getPrice()->getAmount() * 100.00,
             'currency' => $auctionPrice->getPrice()->getCurrency()->getValue(),
         ]);
     }

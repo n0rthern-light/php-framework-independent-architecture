@@ -14,7 +14,7 @@ class AuctionPriceFactory
 
         $auctionPrice->setId($assocArray['id']);
         $auctionPrice->setAuctionId($assocArray['auction_id']);
-        $auctionPrice->setPrice(new Money($assocArray['price'], Currency::from((int)$assocArray['currency'])));;
+        $auctionPrice->setPrice(new Money($assocArray['price'] / 100.00, Currency::from((int)$assocArray['currency'])));;
 
         return $auctionPrice;
     }

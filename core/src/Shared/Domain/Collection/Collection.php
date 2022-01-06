@@ -2,11 +2,19 @@
 
 namespace Core\Shared\Domain\Collection;
 
-abstract class Collection
+use ArrayIterator;
+use IteratorAggregate;
+
+abstract class Collection implements IteratorAggregate
 {
     protected array $items = [];
 
     abstract protected function getCollectionItemType(): string;
+
+    public function getIterator(): ArrayIterator
+    {
+        return new ArrayIterator($this->items);
+    }
 
     public function add(mixed $item): void
     {

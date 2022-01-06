@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/auction')]
+#[Route('/auction', name: 'auction.')]
 class IndexController extends AbstractController
 {
     private CreateAuctionService $createAuctionService;
@@ -28,7 +28,7 @@ class IndexController extends AbstractController
         $collection = $this->getAuctionService->getList();
         $total = $this->getAuctionService->getTotalCount();
 
-        dd($collection, $total);
+        //dd($collection, $total);
 
         return $this->render('auction/index.html.twig', [
             'collection' => $collection,

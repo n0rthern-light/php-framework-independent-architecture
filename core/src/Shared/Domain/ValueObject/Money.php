@@ -24,4 +24,9 @@ class Money
     {
         return $this->currency;
     }
+
+    public function __toString(): string
+    {
+        return $this->getAmount() . ' ' . $this->getCurrency()->getKey();
+    }
 }
