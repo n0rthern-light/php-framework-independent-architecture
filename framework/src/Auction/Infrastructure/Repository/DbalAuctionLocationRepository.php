@@ -3,73 +3,33 @@
 namespace Framework\Auction\Infrastructure\Repository;
 
 use Core\Auction\Domain\Entity\AuctionLocation;
+use Core\Auction\Domain\Factory\AuctionLocationFactory;
 use Core\Auction\Domain\Repository\AuctionLocationRepositoryInterface;
 use Doctrine\DBAL\Connection;
-use Framework\Auction\Infrastructure\Factory\AuctionLocationFactory;
+use Framework\Shared\Infrastructure\Dbal\DbalEntityManager;
 
 class DbalAuctionLocationRepository implements AuctionLocationRepositoryInterface
 {
+    private const TABLE_NAME = 'auction_location';
+
     private Connection $connection;
     private AuctionLocationFactory $auctionLocationFactory;
+
+    private DbalEntityManager $dbalEntityManager;
 
     public function __construct(Connection $connection, AuctionLocationFactory $auctionLocationFactory)
     {
         $this->connection = $connection;
         $this->auctionLocationFactory = $auctionLocationFactory;
+
+        $this->dbalEntityManager = new DbalEntityManager($connection, self::TABLE_NAME);
     }
 
     public function save(AuctionLocation $auctionLocation): void
     {
-        if (!$auctionLocation->getId()) {
-            $this->insert($auctionLocation);
-            return;
-        }
-
-        $this->update($auctionLocation);
-    }
-
-    private function insert(AuctionLocation $auctionLocation): void
-    {
-        $sql = '
-            INSERT INTO auction_location (auction_id, city, country, zip)
-            VALUES (
-                :auctionId,
-                :city,
-                :country,
-                :zip
-            );
-        ';
-
-        $stmt = $this->connection->prepare($sql);
-        $stmt->executeStatement([
-            'auctionId' => $auctionLocation->getAuctionId(),
-            'city' => $auctionLocation->getLocation()->getCountry(),
-            'country' => $auctionLocation->getLocation()->getCity(),
-            'zip' => $auctionLocation->getLocation()->getZip(),
-        ]);
-
-        /** @var int $lastInsertId */
-        $lastInsertId = $this->connection->lastInsertId();
-        $auctionLocation->setId($lastInsertId);
-    }
-
-    private function update(AuctionLocation $auctionLocation): void
-    {
-        $sql = '
-            UPDATE auction_location
-            SET
-                auction_id = :auctionId,
-                city = :city,
-                country = :country,
-                zip = :zip,
-            WHERE
-                id = :id
-        ';
-
-        $stmt = $this->connection->prepare($sql);
-        $stmt->executeStatement([
-            'id' => $auctionLocation->getId(),
-            'auctionId' => $auctionLocation->getAuctionId(),
+        $this->dbalEntityManager->takeCareOf($auctionLocation);
+        $this->dbalEntityManager->save([
+            'auction_id' => $auctionLocation->getAuctionId(),
             'city' => $auctionLocation->getLocation()->getCity(),
             'country' => $auctionLocation->getLocation()->getCountry(),
             'zip' => $auctionLocation->getLocation()->getZip(),

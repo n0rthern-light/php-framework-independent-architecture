@@ -1,22 +1,14 @@
 <?php
 
-namespace Framework\Auction\Infrastructure\Factory;
+namespace Core\Auction\Domain\Factory;
 
 use Core\Auction\Domain\Collection\AuctionPhotoCollection;
 use Core\Auction\Domain\Entity\AuctionPhoto;
+use Core\Shared\Domain\Factory\AbstractFromAssocCollectionFactory;
 use Core\Shared\Domain\ValueObject\PhotoUrl;
 
-class AuctionPhotoFactory
+class AuctionPhotoFactory extends AbstractFromAssocCollectionFactory
 {
-    public function collectionFromAssocRows(array $assocRows): AuctionPhotoCollection
-    {
-        $collection = new AuctionPhotoCollection();
-        foreach($assocRows as $row) {
-            $collection->add($this->fromAssoc($row));
-        }
-        return $collection;
-    }
-
     public function fromAssoc(array $assocArray): AuctionPhoto
     {
         $auctionPhoto = new AuctionPhoto();
@@ -26,5 +18,10 @@ class AuctionPhotoFactory
         $auctionPhoto->setUrl(new PhotoUrl($assocArray['url']));
 
         return $auctionPhoto;
+    }
+
+    protected function getCollectionClass(): string
+    {
+        return AuctionPhotoCollection::class;
     }
 }

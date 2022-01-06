@@ -1,10 +1,11 @@
 <?php
 
-namespace Framework\Auction\Infrastructure\Factory;
+namespace Core\Auction\Domain\Factory;
 
 use Core\Auction\Domain\Entity\AuctionAuthor;
+use Core\Shared\Domain\Factory\FromAssocFactoryInterface;
 
-class AuctionAuthorFactory
+class AuctionAuthorFactory implements FromAssocFactoryInterface
 {
     public function fromAssoc(array $assocArray): AuctionAuthor
     {

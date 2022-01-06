@@ -3,76 +3,36 @@
 namespace Framework\Auction\Infrastructure\Repository;
 
 use Core\Auction\Domain\Entity\AuctionAuthor;
+use Core\Auction\Domain\Factory\AuctionAuthorFactory;
 use Core\Auction\Domain\Repository\AuctionAuthorRepositoryInterface;
 use Doctrine\DBAL\Connection;
-use Framework\Auction\Infrastructure\Factory\AuctionAuthorFactory;
+use Framework\Shared\Infrastructure\Dbal\DbalEntityManager;
 
 class DbalAuctionAuthorRepository implements AuctionAuthorRepositoryInterface
 {
+    private const TABLE_NAME = 'auction_author';
+
     private Connection $connection;
     private AuctionAuthorFactory $auctionAuthorFactory;
+
+    private DbalEntityManager $dbalEntityManager;
 
     public function __construct(Connection $connection, AuctionAuthorFactory $auctionAuthorFactory)
     {
         $this->connection = $connection;
         $this->auctionAuthorFactory = $auctionAuthorFactory;
+
+        $this->dbalEntityManager = new DbalEntityManager($connection, self::TABLE_NAME);
     }
 
     public function save(AuctionAuthor $auctionAuthor): void
     {
-        if (!$auctionAuthor->getId()) {
-            $this->insert($auctionAuthor);
-            return;
-        }
-
-        $this->update($auctionAuthor);
-    }
-
-    private function insert(AuctionAuthor $auctionAuthor): void
-    {
-        $sql = '
-            INSERT INTO auction_author (auction_id, first_name, last_name, company_name)
-            VALUES (
-                :auctionId,
-                :firstName,
-                :lastName,
-                :companyName
-            );
-        ';
-
-        $stmt = $this->connection->prepare($sql);
-        $stmt->executeStatement([
-            'auctionId' => $auctionAuthor->getAuctionId(),
-            'firstName' => $auctionAuthor->getFirstName(),
-            'lastName' => $auctionAuthor->getLastName(),
-            'companyName' => $auctionAuthor->getCompanyName(),
-        ]);
-
-        /** @var int $lastInsertId */
-        $lastInsertId = $this->connection->lastInsertId();
-        $auctionAuthor->setId($lastInsertId);
-    }
-
-    private function update(AuctionAuthor $auctionAuthor): void
-    {
-        $sql = '
-            UPDATE auction_author
-            SET
-                auction_id = :auctionId,
-                first_name = :firstName,
-                last_name = :lastName,
-                company_name = :companyName,
-            WHERE
-                id = :id
-        ';
-
-        $stmt = $this->connection->prepare($sql);
-        $stmt->executeStatement([
-            'id' => $auctionAuthor->getId(),
-            'auctionId' => $auctionAuthor->getAuctionId(),
-            'firstName' => $auctionAuthor->getFirstName(),
-            'lastName' => $auctionAuthor->getLastName(),
-            'companyName' => $auctionAuthor->getCompanyName(),
+        $this->dbalEntityManager->takeCareOf($auctionAuthor);
+        $this->dbalEntityManager->save([
+            'auction_id' => $auctionAuthor->getAuctionId(),
+            'first_name' => $auctionAuthor->getFirstName(),
+            'last_name' => $auctionAuthor->getLastName(),
+            'company_name' => $auctionAuthor->getCompanyName(),
         ]);
     }
 

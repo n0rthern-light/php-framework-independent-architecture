@@ -3,70 +3,33 @@
 namespace Framework\Auction\Infrastructure\Repository;
 
 use Core\Auction\Domain\Entity\AuctionAuthorContact;
+use Core\Auction\Domain\Factory\AuctionAuthorContactFactory;
 use Core\Auction\Domain\Repository\AuctionAuthorContactRepositoryInterface;
 use Doctrine\DBAL\Connection;
-use Framework\Auction\Infrastructure\Factory\AuctionAuthorContactFactory;
+use Framework\Shared\Infrastructure\Dbal\DbalEntityManager;
 
 class DbalAuctionAuthorContactRepository implements AuctionAuthorContactRepositoryInterface
 {
+    private const TABLE_NAME = 'auction_author_contact';
+
     private Connection $connection;
     private AuctionAuthorContactFactory $auctionAuthorContactFactory;
+
+    private DbalEntityManager $dbalEntityManager;
 
     public function __construct(Connection $connection, AuctionAuthorContactFactory $auctionAuthorContactFactory)
     {
         $this->connection = $connection;
         $this->auctionAuthorContactFactory = $auctionAuthorContactFactory;
+
+        $this->dbalEntityManager = new DbalEntityManager($connection, self::TABLE_NAME);
     }
 
     public function save(AuctionAuthorContact $auctionAuthorContact): void
     {
-        if (!$auctionAuthorContact->getId()) {
-            $this->insert($auctionAuthorContact);
-            return;
-        }
-
-        $this->update($auctionAuthorContact);
-    }
-
-    private function insert(AuctionAuthorContact $auctionAuthorContact): void
-    {
-        $sql = '
-            INSERT INTO auction_author_contact (auction_author_id, email, phone)
-            VALUES (
-                :auctionAuthorId,
-                :email,
-                :phone
-            );
-        ';
-
-        $stmt = $this->connection->prepare($sql);
-        $stmt->executeStatement([
-            'auctionAuthorId' => $auctionAuthorContact->getAuctionAuthorId(),
-            'email' => $auctionAuthorContact->getContact()->getEmail()->getValue(),
-            'phone' => $auctionAuthorContact->getContact()->getPhone()->getValue(),
-        ]);
-
-        /** @var int $lastInsertId */
-        $lastInsertId = $this->connection->lastInsertId();
-        $auctionAuthorContact->setId($lastInsertId);
-    }
-
-    private function update(AuctionAuthorContact $auctionAuthorContact): void
-    {
-        $sql = '
-            UPDATE auction_author_contact
-            SET
-                auction_author_id = :auctionAuthorId,
-                email = :email,
-                phone = :phone,
-            WHERE
-                id = :id
-        ';
-
-        $stmt = $this->connection->prepare($sql);
-        $stmt->executeStatement([
-            'id' => $auctionAuthorContact->getId(),
-            'auctionAuthorId' => $auctionAuthorContact->getAuctionAuthorId(),
+        $this->dbalEntityManager->takeCareOf($auctionAuthorContact);
+        $this->dbalEntityManager->save([
+            'auction_author_id' => $auctionAuthorContact->getAuctionAuthorId(),
             'email' => $auctionAuthorContact->getContact()->getEmail()->getValue(),
             'phone' => $auctionAuthorContact->getContact()->getPhone()->getValue(),
         ]);

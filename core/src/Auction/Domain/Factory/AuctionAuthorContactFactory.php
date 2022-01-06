@@ -1,13 +1,14 @@
 <?php
 
-namespace Framework\Auction\Infrastructure\Factory;
+namespace Core\Auction\Domain\Factory;
 
 use Core\Auction\Domain\Entity\AuctionAuthorContact;
+use Core\Shared\Domain\Factory\FromAssocFactoryInterface;
 use Core\Shared\Domain\ValueObject\Contact;
 use Core\Shared\Domain\ValueObject\Email;
 use Core\Shared\Domain\ValueObject\Phone;
 
-class AuctionAuthorContactFactory
+class AuctionAuthorContactFactory implements FromAssocFactoryInterface
 {
     public function fromAssoc(array $assocArray): AuctionAuthorContact
     {

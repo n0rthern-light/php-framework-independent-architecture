@@ -69,7 +69,7 @@ class AuctionFactory
         );
         $auction->setLocation($location);
 
-        $auction->setPrice($this->getPrice('43214312'));
+        $auction->setPrice($this->getPrice('43214'));
 
         return $auction;
     }

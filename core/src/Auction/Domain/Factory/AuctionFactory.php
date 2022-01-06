@@ -1,13 +1,15 @@
 <?php
 
-namespace Framework\Auction\Infrastructure\Factory;
+namespace Core\Auction\Domain\Factory;
 
 use Core\Auction\Domain\AggregateRoot\Auction;
+use Core\Auction\Domain\Collection\AuctionCollection;
 use Core\Auction\Domain\ValueObject\AuctionHash;
 use Core\Auction\Domain\ValueObject\AuctionName;
 use Core\Auction\Domain\ValueObject\AuctionUrl;
+use Core\Shared\Domain\Factory\AbstractFromAssocCollectionFactory;
 
-class AuctionFactory
+class AuctionFactory extends AbstractFromAssocCollectionFactory
 {
     public function fromAssoc(array $assocArray): Auction
     {
@@ -19,5 +21,10 @@ class AuctionFactory
         $auction->setUrl(new AuctionUrl($assocArray['url']));
 
         return $auction;
+    }
+
+    protected function getCollectionClass(): string
+    {
+        return AuctionCollection::class;
     }
 }

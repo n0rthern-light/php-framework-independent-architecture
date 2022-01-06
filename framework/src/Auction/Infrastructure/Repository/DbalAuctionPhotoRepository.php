@@ -4,67 +4,33 @@ namespace Framework\Auction\Infrastructure\Repository;
 
 use Core\Auction\Domain\Collection\AuctionPhotoCollection;
 use Core\Auction\Domain\Entity\AuctionPhoto;
+use Core\Auction\Domain\Factory\AuctionPhotoFactory;
 use Core\Auction\Domain\Repository\AuctionPhotoRepositoryInterface;
 use Doctrine\DBAL\Connection;
-use Framework\Auction\Infrastructure\Factory\AuctionPhotoFactory;
+use Framework\Shared\Infrastructure\Dbal\DbalEntityManager;
 
 class DbalAuctionPhotoRepository implements AuctionPhotoRepositoryInterface
 {
+    private const TABLE_NAME = 'auction_photo';
+
     private Connection $connection;
     private AuctionPhotoFactory $auctionPhotoFactory;
+
+    private DbalEntityManager $dbalEntityManager;
 
     public function __construct(Connection $connection, AuctionPhotoFactory $auctionPhotoFactory)
     {
         $this->connection = $connection;
         $this->auctionPhotoFactory = $auctionPhotoFactory;
+
+        $this->dbalEntityManager = new DbalEntityManager($connection, self::TABLE_NAME);
     }
 
     public function save(AuctionPhoto $auctionPhoto): void
     {
-        if (!$auctionPhoto->getId()) {
-            $this->insert($auctionPhoto);
-            return;
-        }
-
-        $this->update($auctionPhoto);
-    }
-
-    private function insert(AuctionPhoto $auctionPhoto): void
-    {
-        $sql = '
-            INSERT INTO auction_photo (auction_id, url)
-            VALUES (
-                :auctionId,
-                :url
-            );
-        ';
-
-        $stmt = $this->connection->prepare($sql);
-        $stmt->executeStatement([
-            'auctionId' => $auctionPhoto->getAuctionId(),
-            'url' => $auctionPhoto->getUrl()->getValue(),
-        ]);
-
-        /** @var int $lastInsertId */
-        $lastInsertId = $this->connection->lastInsertId();
-        $auctionPhoto->setId($lastInsertId);
-    }
-
-    private function update(AuctionPhoto $auctionPhoto): void
-    {
-        $sql = '
-            UPDATE auction_photo
-            SET
-                auction_id = :auctionId,
-                url = :url
-            WHERE
-                id = :id
-        ';
-
-        $stmt = $this->connection->prepare($sql);
-        $stmt->executeStatement([
-            'id' => $auctionPhoto->getId(),
-            'auctionId' => $auctionPhoto->getAuctionId(),
+        $this->dbalEntityManager->takeCareOf($auctionPhoto);
+        $this->dbalEntityManager->save([
+            'auction_id' => $auctionPhoto->getAuctionId(),
             'url' => $auctionPhoto->getUrl()->getValue(),
         ]);
     }
@@ -75,6 +41,6 @@ class DbalAuctionPhotoRepository implements AuctionPhotoRepositoryInterface
 
         $rows = $this->connection->fetchAllAssociative($sql, ['auctionId' => $auctionId]);
 
-        return $this->auctionPhotoFactory->collectionFromAssocRows($rows);
+        return $this->auctionPhotoFactory->fromAssocCollection($rows);
     }
 }
