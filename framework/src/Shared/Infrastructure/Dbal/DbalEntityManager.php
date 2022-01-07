@@ -4,7 +4,6 @@ namespace Framework\Shared\Infrastructure\Dbal;
 
 use Core\Shared\Domain\Entity\Entity;
 use Doctrine\DBAL\Connection;
-use function PHPUnit\Framework\stringContains;
 
 class DbalEntityManager
 {
